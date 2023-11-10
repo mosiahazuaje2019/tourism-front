@@ -22,14 +22,17 @@
                     @else
                         <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                        @if (Route::has('pre-users.create'))
+                            <a href="{{ route('pre-users.create') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Registro</a>
                         @endif
                     @endauth
                 </div>
             @endif
 
             <div class="py-8">
+                @isset($success)
+                    <h2 class="bg-teal-500 text-gray-700 text-xl font-bold text-center p-8"> {{ $success }} </h2>
+                @endisset
                 <h2 class="font-bold text-5xl text-white">Booking Rides | Admin</h2>
             </div>
         </div>

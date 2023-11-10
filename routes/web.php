@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\PreUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/register-complete', function () {
+    return view('pre-users.register-complete');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -30,5 +34,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('tenants', TenantController::class)->except(['show']);
 });
+
+Route::resource('pre-users', PreUserController::class);
 
 require __DIR__.'/auth.php';

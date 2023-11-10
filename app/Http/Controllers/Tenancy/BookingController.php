@@ -23,7 +23,11 @@ class BookingController extends Controller
      */
     public function create()
     {
-        //
+        $services = ['Llegada'=>'Llegada', 'Salida'=>'Salida'];
+
+        return view('tenancy.bookings.create', [
+            'services' => $services
+        ]);
     }
 
     /**
@@ -31,7 +35,13 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate ([
+            'pax' => 'required',
+            'service' => 'required',
+            'client_name' => 'required',
+            'hotel' => 'required',
+            'flight' => 'required'
+        ]);
     }
 
     /**
