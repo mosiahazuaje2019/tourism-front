@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+use App\Livewire\Counter;
+use App\Livewire\UserList;
+
+Route::get('/counter', Counter::class);
+Route::get('/users', UserList::class);
 
 Route::get('/', function () {
     return view('welcome');

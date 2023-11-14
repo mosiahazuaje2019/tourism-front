@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tenant;
+use App\Models\PreUser;
+use App\Mail\TenantCreated;
+use App\Events\UserProcessedEvent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class TenantController extends Controller
 {
@@ -20,9 +24,11 @@ class TenantController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('tenants.create');
+        $preusers = PreUser::find($request->id);
+
+        return view('tenants.create', compact('preusers'));
     }
 
     /**
@@ -34,12 +40,35 @@ class TenantController extends Controller
             'id' => 'required',
         ]);
 
-        $tenant = Tenant::create($request->all());
+        $data = $request->all();
+        $keyToRemove = 'pre_user_id';
+        $dataWithoutKey = $request->except($keyToRemove);
+
+        $tenant = Tenant::create($dataWithoutKey);
         $tenant->domains()->create([
             'domain' => $request->get('id').'.'.'localhost',
         ]);
+
+        $this->changeStatusPre($request->pre_user_id);
+        $this->sendNotification($request->pre_user_id,$request->get('id'));
+        $this->triggerSeeder();
+
         return redirect()->route('tenants.index')
         ->with('success', 'Compañia creada exitosamente');
+    }
+
+    public function changeStatusPre($id) {
+        PreUser::where('id',$id)->update(['is_active' => 0]);
+    }
+
+    public function sendNotification($id, $domain){
+        $preUser = PreUser::find($id);
+
+        Mail::to($preUser->email)->send(new TenantCreated($domain));
+    }
+
+    public function triggerSeeder() {
+        event(new UserProcessedEvent());
     }
 
     /**
@@ -71,6 +100,7 @@ class TenantController extends Controller
      */
     public function destroy(Tenant $tenant)
     {
-        //
+        $tenant->delete();
+        return redirect()->route('tenants.index');
     }
 }
