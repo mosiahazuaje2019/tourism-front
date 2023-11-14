@@ -42,6 +42,8 @@ class BookingController extends Controller
             'hotel' => 'required',
             'flight' => 'required'
         ]);
+        $booking = Booking::create($request->all());
+        return redirect()->to('bookings');
     }
 
     /**
