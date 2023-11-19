@@ -46,7 +46,7 @@ class TenantController extends Controller
 
         $tenant = Tenant::create($dataWithoutKey);
         $tenant->domains()->create([
-            'domain' => $request->get('id').'.'.'localhost',
+            'domain' => $request->get('id').'.'.'bftbcs.com',
         ]);
 
         $this->changeStatusPre($request->pre_user_id);
