@@ -4,29 +4,31 @@
             {{ __('Compañias') }}
         </h2>
     </x-slot>
-    <x-container class="py-8 text-white">
-        <h2 class="text-2xl font-bold text-black py-4">Generar activación de empresa</h2>
-        <div class="card bg-slate-700 rounded-lg shadow-lg py-4 px-4">
+    <x-container class="max-w-7xl mx-auto sm:px-6 lg:px-8 text-white font-bold">
+        <div class="card bg-slate-700 rounded-lg shadow-lg py-4 px-4 mt-4">
+            <div class="card-header">
+                <h2 class="text-2xl font-bold text-white mb-4">Generar activación de empresa</h2>
+            </div>
             <div class="card-body">
                 <form action="{{ route('tenants.store') }}" method="POST" class="w-full">
                     @csrf
                     <div class="flex flex-wrap -mx-3 mb-6">
-                        <div class="w-full md:w-2/6 px-3 mb-6 md:mb-0">
-                            <input-label>Id de la empresa seleccionada</input-label>
-                            <x-text-input value="{{ $preusers->id }}" class="w-full" readonly=true name="pre_user_id" />
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <input-label>Id</input-label>
+                            <x-text-input value="{{ $preusers->id }}" class="w-full bg-transparent" readonly=true name="pre_user_id" />
                         </div>
-                        <div class="w-full md:w-2/6 px-3">
+                        <div class="w-full md:w-full px-3">
                             <input-label>Nombre de razón social</input-label>
-                            <x-text-input value="{{ $preusers->company_name }}" class="w-full" readonly=true />
+                            <x-text-input value="{{ $preusers->company_name }}" class="w-full bg-transparent" readonly=true />
                         </div>
-                        <div class="w-full md:w-2/6 px-3">
+                        <div class="w-full md:w-full px-3">
                             <input-label>Nombre comercial</input-label>
-                            <x-text-input value="{{ $preusers->name }}" class="w-full" readonly=true />
+                            <x-text-input value="{{ $preusers->name }}" class="w-full bg-transparent" readonly=true />
                         </div>
-                        <div class="flex flex-1 -mx-3 mb-6 px-3 mt-8">
+                        <div class="md:flex md:flex-1 -mx-3 mb-4 px-3 mt-8">
                             <div class="w-full px-3">
                                 <input-label>Nombre para el dominio del usuario</input-label>
-                                <x-text-input  class="w-full" name="id" type="text" placeholder="Ingrese el nombre" />
+                                <x-text-input  class="w-full bg-transparent" name="id" type="text" placeholder="Ingrese el nombre" />
                                 @error('id')
                                     <span class="text-red-400">{{ $message }}</span>
                                 @enderror

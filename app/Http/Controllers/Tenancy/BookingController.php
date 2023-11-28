@@ -23,7 +23,7 @@ class BookingController extends Controller
      */
     public function create()
     {
-        $services = ['Llegada'=>'Llegada', 'Salida'=>'Salida'];
+        $services = ['Llegada'=>'Llegada', 'Salida'=>'Salida', 'Traslado' => 'Traslado'];
 
         return view('tenancy.bookings.create', [
             'services' => $services
@@ -59,7 +59,8 @@ class BookingController extends Controller
      */
     public function edit(Booking $booking)
     {
-        //
+        $services = ['Llegada'=>'Llegada', 'Salida'=>'Salida', 'Traslado' => 'Traslado'];
+        return view('tenancy.bookings.edit', compact('booking','services'));
     }
 
     /**
@@ -67,7 +68,8 @@ class BookingController extends Controller
      */
     public function update(Request $request, Booking $booking)
     {
-        //
+        $booking->update($request->all());
+        return redirect()->route('bookings.index');
     }
 
     /**

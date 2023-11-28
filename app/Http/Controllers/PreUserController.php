@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PreUser;
 use Illuminate\Http\Request;
+use App\Http\Requests\PreUser\createRequest;
 use Illuminate\Support\Facades\View;
 
 class PreUserController extends Controller
@@ -27,7 +28,7 @@ class PreUserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(createRequest $request)
     {
         $request->validate([
             'company_name' => 'required'

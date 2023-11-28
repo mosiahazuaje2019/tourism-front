@@ -16,6 +16,7 @@ class Booking extends Model
         'hotel',
         'flight',
         'date',
-        'time'
+        'time',
+        'comments'
     ];
 }
