@@ -8,6 +8,7 @@ use App\Mail\TenantCreated;
 use App\Events\UserProcessedEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class TenantController extends Controller
 {
@@ -76,7 +77,8 @@ class TenantController extends Controller
      */
     public function show(Tenant $tenant)
     {
-        //
+        $data = DB::select('SELECT * FROM '.$tenant->tenancy_db_name.'.bookings');
+        return view('tenants.show', compact('data','tenant'));
     }
 
     /**
@@ -84,7 +86,7 @@ class TenantController extends Controller
      */
     public function edit(Tenant $tenant)
     {
-        //
+        return view('tenants.edit', compact('tenant'));
     }
 
     /**
@@ -92,7 +94,17 @@ class TenantController extends Controller
      */
     public function update(Request $request, Tenant $tenant)
     {
-        //
+        $request->validate([
+            'id' => 'required|unique:tenants,id,'.$tenant->id,
+        ]);
+        $tenant->update([
+            'id' => $request->get('id'),
+        ]);
+        $tenant->domains()->update([
+            'domain' => $request->get('id').'.'.'bftbcs.com',
+        ]);
+
+        return redirect()->route('tenants.index');
     }
 
     /**
