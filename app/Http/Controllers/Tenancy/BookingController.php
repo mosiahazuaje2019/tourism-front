@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Tenancy;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\BookingImport;
 
 class BookingController extends Controller
 {
@@ -40,7 +42,6 @@ class BookingController extends Controller
             'service' => 'required',
             'client_name' => 'required',
             'hotel' => 'required',
-            'flight' => 'required'
         ]);
         $booking = Booking::create($request->all());
         return redirect()->to('bookings');
@@ -77,6 +78,29 @@ class BookingController extends Controller
      */
     public function destroy(Booking $booking)
     {
-        //
+        $booking->delete();
+        return redirect()->route('bookings.index');
     }
+
+    public function upload(Request $request) {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = $file->getClientOriginalName(); // Get the original file name
+            $file->storeAs('uploads', $fileName);
+            //$this->import($fileName);
+        }
+    }
+
+    public function import(){
+/*         //get sub-domain
+        $host = $_SERVER['HTTP_HOST'];
+        $hostParts = explode('.', $host); */
+
+        //$ruta = route('file', 'uploads/'.$fileName);
+
+        Excel::import(new BookingImport, 'excel.csv');
+
+        return redirect()->route('bookings.index');
+    }
+
 }

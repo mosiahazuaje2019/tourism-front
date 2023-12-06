@@ -7,6 +7,7 @@ use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 use App\Http\Controllers\Tenancy\BookingController;
+use App\Http\Controllers\Tenancy\FileUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,15 @@ Route::middleware([
         })->name('dashboard');
 
         Route::resource('bookings', BookingController::class)->except(['show']);
+        Route::get('/import', [BookingController::class, 'import'])->name('import');
+        Route::post('/upload', [BookingController::class, 'upload'])->name('upload');
+        //Route::post('/upload', [FileUploadController::class, 'upload'])->name('upload.file');
+        Route::get('/upload', [FileUploadController::class, 'index']);
     });
+
+    Route::get('/file/{path}', function($path) {
+        return response()->file(Storage::path($path));
+    })->where('path', '.*')->name('file');
+
     require __DIR__.'/auth.php';
 });

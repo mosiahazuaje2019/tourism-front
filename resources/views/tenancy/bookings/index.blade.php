@@ -18,7 +18,14 @@
                     </div>
                 </div>
             </a>
+            <div class="flex mx-4">
+                <!-- Modal toggle -->
+                <a href="/upload" data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button">
+                Importar datos
+                </a>
+            </div>
         </div>
+
         <div class="my-4">
             <div class="relative overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">

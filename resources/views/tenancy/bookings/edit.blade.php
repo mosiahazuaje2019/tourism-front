@@ -21,9 +21,12 @@
                     </div>
                     <div class="mb-4">
                         <select name="service" id="service" class="form-control w-full">
-                            <option value="">Seleccione...</option>
-                            @foreach ($services as $value => $label)
-                                <option value="{{ $booking->service ? $booking->service : $value }}">{{ $label }}</option>
+                            @foreach ($services as $key => $value)
+                                <option value="{{ $key }}"
+                                @if ($key == old('myselect', $booking->service))
+                                    selected="selected"
+                                @endif
+                                >{{ $value }}</option>
                             @endforeach
                         </select>
                     </div>
