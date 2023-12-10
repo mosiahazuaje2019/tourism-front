@@ -5,17 +5,19 @@ namespace App\Imports;
 use App\Models\Booking;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\ToCollection;
-use Maatwebsite\Excel\Facades\Excel;
 
-class BookingImport implements ToCollection
+class BookingImport implements ToModel, WithHeadingRow
 {
-
-    public function collection(Collection $rows)
+    /**
+     * @param array $row
+     *
+     * @return Booking|null
+     */
+    public function model(array $row)
     {
-        foreach ($rows as $row) {
-            dd($row);
-        }
+        return new Booking([
+            'pax' => $row['pax'],
+            'service' => $row['service']
+        ]);
     }
 }

@@ -99,7 +99,6 @@ class BookingController extends Controller
         //$ruta = route('file', 'uploads/'.$fileName);
 
         Excel::import(new BookingImport, 'booking.xlsx');
-
         return redirect()->route('bookings.index');
     }
 
