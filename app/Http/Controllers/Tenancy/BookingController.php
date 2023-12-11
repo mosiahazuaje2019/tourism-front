@@ -86,21 +86,18 @@ class BookingController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $fileName = $file->getClientOriginalName(); // Get the original file name
-            $file->storeAs('uploads', $fileName);
-            //$this->import($fileName);
+            $file->store($fileName);
+            Excel::import(new BookingImport, $request->file('file'));
+            return redirect()->route('bookings.index');
         }
     }
 
     public function import(){
-/*         //get sub-domain
+        /*         //get sub-domain
         $host = $_SERVER['HTTP_HOST'];
         $hostParts = explode('.', $host); */
-
-        //$ruta = route('file', 'uploads/'.$fileName);
-
-        Excel::import(new BookingImport, 'booking.xlsx');
-
-        return redirect()->route('bookings.index');
+        //$ruta = route('file', $fileName);
+        //return redirect()->route('bookings.index');
     }
 
 }
