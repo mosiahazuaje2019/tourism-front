@@ -92,12 +92,4 @@ class BookingController extends Controller
         }
     }
 
-    public function import(){
-        /*         //get sub-domain
-        $host = $_SERVER['HTTP_HOST'];
-        $hostParts = explode('.', $host); */
-        //$ruta = route('file', $fileName);
-        //return redirect()->route('bookings.index');
-    }
-
 }

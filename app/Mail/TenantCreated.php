@@ -8,6 +8,8 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Tenant;
+use Illuminate\Support\Facades\DB;
 
 class TenantCreated extends Mailable
 {
@@ -38,10 +40,15 @@ class TenantCreated extends Mailable
      */
     public function content(): Content
     {
+        $tenant = Tenant::find($this->domain);
+        $data = DB::select('SELECT * FROM '.$tenant->tenancy_db_name.'.users');
+
         return new Content(
             view: 'emails.tenant',
             with: [
-                'domain' => $this->domain
+                'domain' => $this->domain,
+                'email'  => $data[0]->email,
+                'pass'   => $data[0]->remember_token,
             ],
         );
     }

@@ -51,9 +51,12 @@ class TenantController extends Controller
         ]);
 
         $this->changeStatusPre($request->pre_user_id);
-        $this->sendNotification($request->pre_user_id,$request->get('id'));
-        $this->triggerSeeder();
 
+        $getPreEmail = PreUser::where('id',$request->pre_user_id)->get();
+        $data = DB::select('SELECT * FROM '.$tenant->tenancy_db_name.'.users');
+        $data = DB::table($tenant->tenancy_db_name.'.users')->update(['email' => $getPreEmail[0]->email]);
+        
+        $this->sendNotification($request->pre_user_id,$request->get('id'));
         return redirect()->route('tenants.index')
         ->with('success', 'Compañia creada exitosamente');
     }
@@ -64,12 +67,11 @@ class TenantController extends Controller
 
     public function sendNotification($id, $domain){
         $preUser = PreUser::find($id);
-
         Mail::to($preUser->email)->send(new TenantCreated($domain));
     }
 
-    public function triggerSeeder() {
-        event(new UserProcessedEvent());
+    public function triggerSeeder($id, $domain) {
+        //event(new UserProcessedEvent($id, $domain));
     }
 
     /**

@@ -2,10 +2,11 @@
 
 namespace App\Observers;
 use App\Events\UserProcessedEvent;
+use App\Models\YourModel;
 
 class UserProcessedObserver
 {
-    public function created($model){
-        event(new UserProcessedEvent());
+    public function created(){
+        //event(new UserProcessedEvent());
     }
 }

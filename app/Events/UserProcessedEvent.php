@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Artisan;
 
 class UserProcessedEvent
 {
@@ -17,9 +18,21 @@ class UserProcessedEvent
     /**
      * Create a new event instance.
      */
-    public function __construct()
+
+    public $id;
+    public $domain;
+
+    public function __construct($id, $domain)
     {
-        //
+        $this->id = $id;
+        $this->domain = $domain;
+
+
+        $seeder = new \Database\Seeders\TenantSeeder();
+        $seeder->setParameter($id);
+        Artisan::call('db:seed', [
+            '--class' => get_class($seeder),
+        ]);
     }
 
     /**
