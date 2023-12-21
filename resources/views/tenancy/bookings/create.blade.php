@@ -7,10 +7,10 @@
     </x-slot>
 
     <x-container class="py-12 mx-60">
-        <div class="card bg-slate-800 p-10 rounded-lg">
+        <div class="card bg-slate-600 p-10 rounded-lg">
             <form action="{{ route('bookings.store') }}" method="POST">
                 @csrf
-                <div class="card-body">
+                <div class="card-body text-black">
                     <div class="mb-4">
                         <x-input-label>
                             PAX:
